@@ -37,11 +37,11 @@ Plotly and widgets can be combined to create interactive output that you control
 
 This guide has two main purposes. 
 
-The first is to **provide a (relatively) condensed summary** of what I see as the most useful parts of both libaries, without having to scroll through endless tutorials and documentation pages.
+The first is to **provide a (relatively) condensed summary** of what I see as the most useful parts of both libaries, without having to scroll through endless tutorials and documentation pages. Plotly actually has pretty good documentation, although there's a lot of it (for an idea of what I mean by 'condensed', scroll down the **`Plotly - Chart Types`** page). Widgets has okay documentation, but it's not very well-structured. Plotly & widgets documentation isn't that extensive.
 
-The second is to **provide a useful resource to find code** which produces the plot / widget you want. 
+The second is to **provide a useful resource to find code** which produces the plot / widget / plot-widget interaction that you want. It can be nice to memorise code and write it out efficiently, but a much more efficient alternative is to **(a) know the capabilities of a library and (b) know where to look to get the code you want**. I hope this document can accomplish both things.
 
-Depending on what you're hoping to use this for, you might prefer using the Jupyter Notebook, where you can actually run the cells."""
+Depending on what you're hoping to use this for, you might prefer using the Jupyter Notebook, where you can actually run the cells. You can download it below, or from my [GitHub page](https://github.com/callummcdougall/plotly-widgets/blob/main/WidgetsPlotlyGuideTrimmed.ipynb)."""
 
 markdown_2 = """---
 
@@ -58,7 +58,7 @@ However the IPython widgets won't work, so if you want to try these out rather t
 * **`plotly`**
     * **Introduction** — describes what Plotly is in more detail, and goes over the core Plotly syntax
     * **Basic Features** — shows how to add features like legend, titles, error bars and hover text to graphs
-    * **Chart Cypes** — showcases a variety of different plotly charts (e.g. line, scatter, heatmap)
+    * **Chart Types** — showcases a variety of different plotly charts (e.g. line, scatter, heatmap)
 * **`widgets`**
     * **Introduction** — gives an overview of what widgets are, goes over the core syntax for widgets
     * **Widget Types** — showcases most available widgets
@@ -75,7 +75,8 @@ Happy plotting!
 
 st.markdown(markdown_1)
 
-with open("WidgetsPlotlyGuideTrimmed.ipynb", "rb") as file:
+notebook_path = Path(r"C:\Users\calsm\Documents\PythonScripts\Learning\tutorials\WidgetsPlotlyGuideTrimmed.ipynb")
+with open(notebook_path, "rb") as file:
     st.download_button(data=file, label="Download Jupyter Notebook", file_name="Plotly-Widgets-tutorial.ipynb")
 
 st.markdown(markdown_2)

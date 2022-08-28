@@ -63,14 +63,14 @@ all_titles = [
     "Tables"
 ]
 
-# with st.sidebar:
-#     for title in all_titles:
-#         st.markdown(f"[{title}]({parse_title(title)})", unsafe_allow_html=True)
+with st.sidebar:
+    for title in all_titles:
+        st.markdown(f"[{title}]({parse_title(title)})", unsafe_allow_html=True)
 
 
 @st.cache(hash_funcs={dict: lambda _: None})
-def fetching_graphs():
-    d = {}
+def fetching_plotly_figures():
+    d = dict()
     df = px.data.iris()
     d[1] = px.scatter(df, x="sepal_width", y="sepal_length", color="species", size='petal_length', hover_data=['petal_width'])
     N = 100
@@ -134,6 +134,53 @@ def fetching_graphs():
                     paper_bgcolor='rgb(235, 235, 235)',
                     plot_bgcolor='rgb(235, 235, 235)')
     d[9] = fig_9
+    country = ['Switzerland (2011)', 'Chile (2013)', 'Japan (2014)', 'United States (2012)', 'Poland (2010)', 'Estonia (2015)', 'Luxembourg (2013)', 'Portugal (2011)']
+    voting_pop = [40, 45.7, 52, 53.6, 54.5, 54.7, 55.1, 56.6]
+    reg_voters = [49.1, 42, 52.7, 84.3, 55.3, 64.2, 91.1, 58.9]
+    fig_10 = go.Figure()
+    fig_10.add_trace(go.Scatter(
+        x=voting_pop,
+        y=country,
+        name='Percent of estimated voting age population',
+        marker=dict(
+            color='rgba(156, 165, 196, 0.95)',
+            line_color='rgba(156, 165, 196, 1.0)',
+        )
+    ))
+    fig_10.add_trace(go.Scatter(
+        x=reg_voters, y=country,
+        name='Percent of estimated registered voters',
+        marker=dict(
+            color='rgba(204, 204, 204, 0.95)',
+            line_color='rgba(217, 217, 217, 1.0)'
+        )
+    ))
+    fig_10.update_traces(mode='markers', marker=dict(line_width=1, symbol='circle', size=16))
+    fig_10.update_layout(
+        title="Votes cast for 10 lowest voting age population in OECD countries",
+        xaxis=dict(
+            showgrid=False,
+            showline=True,
+            linecolor='rgb(102, 102, 102)',
+            tickfont_color='rgb(102, 102, 102)',
+            showticklabels=True,
+            dtick=10,
+            ticks='outside',
+            tickcolor='rgb(102, 102, 102)',
+        ),
+        margin=dict(l=140, r=40, b=50, t=80),
+        legend=dict(
+            font_size=11,
+            yanchor='middle',
+            xanchor='right',
+        ),
+        width=800,
+        height=600,
+        paper_bgcolor='white',
+        plot_bgcolor='white',
+        hovermode='closest',
+    )
+    d[10] = fig_10
     df = px.data.gapminder()
     df = df[df.continent.isin(["Americas"])]
     d[11] = px.line(df, x="year", y="lifeExp", color='country')
@@ -224,14 +271,14 @@ def fetching_graphs():
     data_canada = data[data.country == 'Canada']
     d[18] = px.bar(data_canada, x='year', y='pop',
                 hover_data=['lifeExp', 'gdpPercap'], color='lifeExp',
-                labels={'pop':'population of Canada'}, height=400)
+                labels={'pop':'population of Canada'}, height=400, color_continuous_scale="Bluered")
     df = px.data.tips()
     d[19] = px.bar(df, x="sex", y="total_bill", color="smoker", barmode="group",
                 facet_row="time", facet_col="day",
-                category_orders={"day": ["Thur", "Fri", "Sat", "Sun"],
-                                "time": ["Lunch", "Dinner"]})
+                category_orders={"day": ["Thur", "Fri", "Sat", "Sun"], "time": ["Lunch", "Dinner"]}, 
+                color_discrete_sequence=["darkorange", "brown"])
     df = px.data.gapminder().query("continent == 'Europe' and year == 2007 and pop > 2.e6")
-    fig_20 = px.bar(df, y='pop', x='country', text='pop')
+    fig_20 = px.bar(df, y='pop', x='country', text='pop', template='ggplot2')
     fig_20.update_traces(texttemplate='%{text:.2s}', textposition='outside')
     d[20] = fig_20
     d[21] = go.Figure(
@@ -335,8 +382,7 @@ def fetching_graphs():
         [1, .8, .6, .4],
         [.6, .4, .2, .0],
         [.9, .7, .5, .3]]
-    fig_34 = ff.create_annotated_heatmap(z, colorscale='Viridis')
-    fig_34.update_layout(width=750, height=400, margin_t=20)
+    fig_34 = px.imshow(z, color_continuous_scale='Viridis')
     d[34] = fig_34
     z = [[.1, .3, .5],
         [1.0, .8, .6],
@@ -346,21 +392,23 @@ def fetching_graphs():
     z_text = [['Win', 'Lose', 'Win'],
             ['Lose', 'Lose', 'Win'],
             ['Win', 'Win', 'Lose']]
-    d[35] = ff.create_annotated_heatmap(z, x=x, y=y, annotation_text=z_text, colorscale='Viridis')
+    fig_35 = px.imshow(z, x=x, y=y, color_continuous_scale='Viridis', aspect="auto")
+    fig_35.update_traces(text=z_text, texttemplate="%{text}<br><br>z = %{z}")
+    fig_35.update_xaxes(side="top")
+    d[35] = fig_35
+    data = np.random.normal(size=(25, 10)) + 0.3 * np.random.normal(size=(10,))[None, :]
+    d["35b"] = px.imshow(np.corrcoef(data), color_continuous_scale="RdBu_r", origin="lower")
     df = px.data.tips()
     d[36] = px.density_heatmap(df, x="total_bill", y="tip", histfunc="avg")
-    df = px.data.tips()
     d[37] = px.density_heatmap(df, x="total_bill", y="tip", facet_row="sex", facet_col="smoker")
     df = px.data.gapminder().query("year == 2007")
     fig_38 = px.treemap(df, path=[px.Constant("world"), 'continent', 'country'], values='pop',
                     color='lifeExp', color_continuous_scale='RdBu',
                     color_continuous_midpoint=np.average(df['lifeExp'], weights=df['pop']))
-
     fig_38.update_layout(margin = dict(t=50, l=25, r=25, b=25))
     d[38] = fig_38
     df = px.data.iris()
     d[39] = px.scatter(df, x="sepal_length", y="sepal_width", marginal_x="histogram", marginal_y="rug")
-    df = px.data.iris()
     d[40] = px.scatter(df, x="sepal_length", y="sepal_width", color="species", 
                     marginal_x="box", marginal_y="violin")
     df = px.data.tips()
@@ -515,6 +563,60 @@ fig.update_layout(xaxis=dict(gridcolor="white", gridwidth=2),
                   plot_bgcolor='rgb(235, 235, 235)')
 fig.show()"""
 
+code_10 = """country = ['Switzerland (2011)', 'Chile (2013)', 'Japan (2014)', 'United States (2012)',
+           'Poland (2010)', 'Estonia (2015)', 'Luxembourg (2013)', 'Portugal (2011)']
+voting_pop = [40, 45.7, 52, 53.6, 54.5, 54.7, 55.1, 56.6]
+reg_voters = [49.1, 42, 52.7, 84.3, 55.3, 64.2, 91.1, 58.9]
+
+fig = go.Figure()
+
+fig.add_trace(go.Scatter(
+    x=voting_pop,
+    y=country,
+    name='Percent of estimated voting age population',
+    marker=dict(
+        color='rgba(156, 165, 196, 0.95)',
+        line_color='rgba(156, 165, 196, 1.0)',
+    )
+))
+fig.add_trace(go.Scatter(
+    x=reg_voters, y=country,
+    name='Percent of estimated registered voters',
+    marker=dict(
+        color='rgba(204, 204, 204, 0.95)',
+        line_color='rgba(217, 217, 217, 1.0)'
+    )
+))
+
+fig.update_traces(mode='markers', 
+                  marker=dict(line_width=1, symbol='circle', size=16))
+
+fig.update_layout(
+    title="Votes cast for 10 lowest voting age population in OECD countries",
+    xaxis=dict(
+        showgrid=False,
+        showline=True,
+        linecolor='rgb(102, 102, 102)',
+        tickfont_color='rgb(102, 102, 102)',
+        showticklabels=True,
+        dtick=10,
+        ticks='outside',
+        tickcolor='rgb(102, 102, 102)',
+    ),
+    margin=dict(l=140, r=40, b=50, t=80),
+    legend=dict(
+        font_size=11,
+        yanchor='middle',
+        xanchor='right',
+    ),
+    width=800,
+    height=450,
+    paper_bgcolor='white',
+    plot_bgcolor='white',
+    hovermode='closest',
+)
+fig.show()"""
+
 code_11 = """df = px.data.gapminder()
 
 df = df[df.continent.isin(["Americas"])]
@@ -627,18 +729,18 @@ code_18 = """data = px.data.gapminder()
 data_canada = data[data.country == 'Canada']
 fig = px.bar(data_canada, x='year', y='pop',
              hover_data=['lifeExp', 'gdpPercap'], color='lifeExp',
-             labels={'pop':'population of Canada'}, height=400)
+             labels={'pop':'population of Canada'}, height=400, color_continuous_scale="Bluered")
 fig.show()"""
 
 code_19 = """df = px.data.tips()
 fig = px.bar(df, x="sex", y="total_bill", color="smoker", barmode="group",
              facet_row="time", facet_col="day",
-             category_orders={"day": ["Thur", "Fri", "Sat", "Sun"],
-                              "time": ["Lunch", "Dinner"]})
+             category_orders={"day": ["Thur", "Fri", "Sat", "Sun"], "time": ["Lunch", "Dinner"]}, 
+             color_discrete_sequence=["darkorange", "brown"])
 fig.show()"""
 
 code_20 = """df = px.data.gapminder().query("continent == 'Europe' and year == 2007 and pop > 2.e6")
-fig = px.bar(df, y='pop', x='country', text='pop')
+fig = px.bar(df, y='pop', x='country', text='pop', template='ggplot2')
 fig.update_traces(texttemplate='%{text:.2s}', textposition='outside')
 fig.show()"""
 
@@ -789,8 +891,7 @@ code_34 = """z = [[.1, .3, .5, .7],
      [.6, .4, .2, .0],
      [.9, .7, .5, .3]]
 
-fig = ff.create_annotated_heatmap(z, colorscale='Viridis')
-fig.update_layout(width=750, height=400, margin_t=20)
+fig = px.imshow(z, color_continuous_scale='Viridis')
 fig.show()"""
 
 code_35 = """z = [[.1, .3, .5],
@@ -804,7 +905,15 @@ z_text = [['Win', 'Lose', 'Win'],
           ['Lose', 'Lose', 'Win'],
           ['Win', 'Win', 'Lose']]
 
-fig = ff.create_annotated_heatmap(z, x=x, y=y, annotation_text=z_text, colorscale='Viridis')
+fig = px.imshow(z, x=x, y=y, color_continuous_scale='Viridis', aspect="auto")
+fig.update_traces(text=z_text, texttemplate="%{text}<br><br>z = %{z}")
+fig.update_xaxes(side="top")
+
+fig.show()"""
+
+code_35b = """data = np.random.normal(size=(25, 10)) + 0.3 * np.random.normal(size=(10,))[None, :]
+
+fig = px.imshow(np.corrcoef(data), color_continuous_scale="RdBu_r", origin="lower")
 
 fig.show()"""
 
@@ -901,118 +1010,113 @@ fig = go.Figure(data=[go.Table(
 
 fig.show()"""
 
+d, long_df = fetching_plotly_figures()
 
-d, long_df = fetching_graphs()
-fig_1 = d[1]
-fig_2 = d[2]
-fig_3 = d[3]
-fig_4 = d[4]
-fig_5 = d[5]
-fig_6 = d[6]
-fig_7 = d[7]
-fig_8 = d[8]
-fig_9 = d[9]
-fig_11 = d[11]
-fig_12 = d[12]
-fig_13 = d[13]
-fig_14 = d[14]
-fig_15 = d[15]
-fig_16 = d[16]
-fig_17 = d[17]
-fig_18 = d[18]
-fig_19 = d[19]
-fig_20 = d[20]
-fig_21 = d[21]
-fig_22 = d[22]
-fig_23 = d[23]
-fig_24 = d[24]
-fig_25 = d[25]
-fig_26 = d[26]
-fig_27 = d[27]
-fig_28 = d[28]
-fig_29 = d[29]
-fig_30 = d[30]
-fig_31 = d[31]
-fig_32 = d[32]
-fig_33 = d[33]
-fig_34 = d[34]
-fig_35 = d[35]
-fig_36 = d[36]
-fig_37 = d[37]
-fig_38 = d[38]
-fig_39 = d[39]
-fig_40 = d[40]
-fig_41 = d[41]
-fig_42 = d[42]
-fig_43 = d[43]
-fig_44 = d[44]
-fig_45 = d[45]
-fig_46 = d[46]
-
-with st.expander("Scatter plots"):
-    st.header("Scatter plots")
-    for (code, fig) in zip([code_1, code_2, code_3, code_4, code_5, code_6, code_7, code_8, code_9], [fig_1, fig_2, fig_3, fig_4, fig_5, fig_6, fig_7, fig_8, fig_9]):
+st.header("Scatter plots")
+with st.expander("Code & interactive graphs"):
+    for (code, fig) in zip([code_1, code_2, code_3, code_4, code_5, code_6, code_7, code_8, code_9, code_10], [d[i] for i in range(1, 11)]):
         st.code(code, language="python")
         st.plotly_chart(fig)
+cols_scatter_1 = st.columns(2)
+cols_scatter_2 = st.columns(2)
+for i in range(2):
+    with cols_scatter_1[i]: st.image(f"images/charts-scatter-{i}.png")
+for i in range(2):
+    with cols_scatter_2[i]: st.image(f"images/charts-scatter-{i+2}.png")
 
-with st.expander("Line charts"):
-    st.header("Line charts")
-    for (code, fig) in zip([code_11, code_12, code_13, code_14, code_15], [fig_11, fig_12, fig_13, fig_14, fig_15]):
+st.header("Line charts")
+with st.expander("Code & interactive graphs"):
+    for (code, fig) in zip([code_11, code_12, code_13, code_14, code_15], [d[i] for i in range(11, 16)]):
         st.code(code, language="python")
         st.plotly_chart(fig)
+cols_line = st.columns(2)
+for i in range(2):
+    with cols_line[i]: st.image(f"images/charts-line-{i}.png")
 
-with st.expander("Bar charts"):
-    st.header("Bar charts")
-    for (code, fig) in zip([code_16, code_17, long_df, code_18, code_19, code_20, code_21], [fig_16, fig_17, None, fig_18, fig_19, fig_20, fig_21]):
+st.header("Bar charts")
+with st.expander("Code & interactive graphs"):
+    for (code, fig) in zip([code_16, code_17, long_df, code_18, code_19, code_20, code_21], [d[16], d[17], None, d[18], d[19], d[20], d[21]]):
         if fig is not None:
             st.code(code, language="python")
             st.plotly_chart(fig)
         else:
             st.table(code)
+cols_bar_1 = st.columns(2)
+cols_bar_2 = st.columns(2)
+for i in range(2):
+    with cols_bar_1[i]: st.image(f"images/charts-bar-{i}.png")
+for i in range(2):
+    with cols_bar_2[i]: st.image(f"images/charts-bar-{i+2}.png")
 
-with st.expander("Box plots"):
-    st.header("Box plots")
-    for (code, fig) in zip([code_22, code_23, code_24], [fig_22, fig_23, fig_24]):
+st.header("Box plots")
+with st.expander("Code & interactive graphs"):
+    for (code, fig) in zip([code_22, code_23, code_24], [d[22], d[23], d[24]]):
         st.code(code, language="python")
         st.plotly_chart(fig)
+cols_box = st.columns(2)
+for i in range(2):
+    with cols_box[i]: st.image(f"images/charts-box-{i}.png")
 
-with st.expander("Violin plots"):
-    st.header("Violin plots")
-    for (code, fig) in zip([code_25, code_26, code_27, code_28], [fig_25, fig_26, fig_27, fig_28]):
+st.header("Violin plots")
+with st.expander("Code & interactive graphs"):
+    for (code, fig) in zip([code_25, code_26, code_27, code_28], [d[25], d[26], d[27], d[28]]):
         st.code(code, language="python")
         st.plotly_chart(fig)
+cols_violin = st.columns(2)
+for i in range(2):
+    with cols_violin[i]: st.image(f"images/charts-violin-{i}.png")
 
-with st.expander("Histograms"):
-    st.header("Histograms")
-    for (code, fig) in zip([code_29, code_30, code_31, code_32], [fig_29, fig_30, fig_31, fig_32]):
+st.header("Histograms")
+with st.expander("Code & interactive graphs"):
+    for (code, fig) in zip([code_29, code_30, code_31, code_32], [d[29], d[30], d[31], d[32]]):
         st.code(code, language="python")
         st.plotly_chart(fig)
+cols_histogram = st.columns(2)
+for i in range(2):
+    with cols_histogram[i]: st.image(f"images/charts-histogram-{i}.png")
 
-with st.expander("Heatmaps"):
-    st.header("Heatmaps")
-    for (code, fig) in zip([code_33, code_34, code_35, code_36, code_37], [fig_33, fig_34, fig_35, fig_36, fig_37]):
+st.header("Heatmaps")
+with st.expander("Code & interactive graphs"):
+    for (code, fig) in zip([code_33, code_34, code_35, code_35b, code_36, code_37], [d[33], d[34], d[35], d["35b"], d[36], d[37]]):
         st.code(code, language="python")
         st.plotly_chart(fig)
+cols_heatmap_1 = st.columns(2)
+cols_heatmap_2 = st.columns(2)
+for i in range(2):
+    with cols_heatmap_1[i]: st.image(f"images/charts-heatmap-{i}.png")
+for i in range(2):
+    with cols_heatmap_2[i]: st.image(f"images/charts-heatmap-{i+2}.png")
 
-with st.expander("Treemaps"):
-    st.header("Treemaps")
+st.header("Treemaps")
+with st.expander("Code & interactive graphs"):
     st.code(code_38, language="python")
-    st.plotly_chart(fig_38)
+    st.plotly_chart(d[38])
+cols_treemap = st.columns(2)
+with cols_treemap[0]: st.image("images/charts-treemap.png")
 
-with st.expander("Marginal plots"):
-    st.header("Marginal plots")
-    for (code, fig) in zip([code_39, code_40, code_41], [fig_39, fig_40, fig_41]):
+st.header("Marginal plots")
+with st.expander("Code & interactive graphs"):
+    for (code, fig) in zip([code_39, code_40, code_41], [d[39], d[40], d[41]]):
         st.code(code, language="python")
         st.plotly_chart(fig)
+cols_marginal = st.columns(2)
+for i in range(2):
+    with cols_marginal[i]: st.image(f"images/charts-marginal-{i}.png")
 
-with st.expander("Scatterplot matrix"):
-    st.header("Scatterplot matrix")
-    for (code, fig) in zip([code_42, code_43], [fig_42, fig_43]):
+st.header("Scatterplot matrix")
+with st.expander("Code & interactive graphs"):
+    for (code, fig) in zip([code_42, code_43], [d[42], d[43]]):
         st.code(code, language="python")
         st.plotly_chart(fig)
+cols_scatterplot = st.columns(2)
+for i in range(2):
+    with cols_scatterplot[i]: st.image(f"images/charts-scatterplot-{i}.png")
 
-with st.expander("Tables"):
-    st.header("Tables")
-    for (code, fig) in zip([code_44, code_45, code_46], [fig_44, fig_45, fig_46]):
+st.header("Tables")
+with st.expander("Code & interactive graphs"):
+    for (code, fig) in zip([code_44, code_45, code_46], [d[44], d[45], d[46]]):
         st.code(code, language="python")
         st.plotly_chart(fig)
+cols_table = st.columns(2)
+for i in range(2):
+    with cols_table[i]: st.image(f"images/charts-table-{i}.png")

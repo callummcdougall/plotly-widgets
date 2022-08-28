@@ -69,7 +69,6 @@ all_titles = [
 
 with st.sidebar:
     for title in all_titles:
-        print(title, parse_title(title[0] if type(title) == tuple else title))
         if type(title) == str:
             st.markdown(f"[{title}]({parse_title(title)})", unsafe_allow_html=True)
         else:
@@ -384,11 +383,11 @@ fig.show()"""
 fig_10 = px.colors.qualitative.swatches()
 
 code_11 = """fig = px.colors.sequential.swatches()
-fig.update_layout(height=1600)
+fig.update_layout(height=2000)
 fig.show()"""
 
 fig_11 = px.colors.sequential.swatches()
-fig_11.update_layout(height=1600)
+fig_11.update_layout(height=2000)
 
 code_12 = """df = px.data.wind()
 fig = px.bar_polar(
@@ -407,11 +406,11 @@ fig_12 = px.bar_polar(
 )
 
 code_13 = """fig = px.colors.sequential.swatches_continuous()
-fig.update_layout(height=1600)
+fig.update_layout(height=2000)
 fig.show()"""
 
 fig_13 = px.colors.sequential.swatches_continuous()
-fig_13.update_layout(height=1600)
+fig_13.update_layout(height=2000)
 
 code_14 = """fig = px.colors.diverging.swatches_continuous()
 fig.show()"""
@@ -1160,66 +1159,72 @@ fig_36 = px.scatter(df, x="total_bill", y="tip", color="sex", facet_col="day", m
 
 
 st.header("Image size & margins")
-st.markdown(markdown_1)
-st.code(code_1, language="python")
-st.plotly_chart(fig_1)
+with st.expander(""):
+    st.markdown(markdown_1)
+    st.code(code_1, language="python")
+    st.plotly_chart(fig_1)
 
 st.header("Titles")
-st.markdown(markdown_2)
-st.code(code_2, language="python")
-st.plotly_chart(fig_2)
-st.markdown(markdown_3)
-st.code(code_3, language="python")
-st.plotly_chart(fig_3)
+with st.expander(""):
+    st.markdown(markdown_2)
+    st.code(code_2, language="python")
+    st.plotly_chart(fig_2)
+    st.markdown(markdown_3)
+    st.code(code_3, language="python")
+    st.plotly_chart(fig_3)
 
 st.header("Legends")
-st.markdown(markdown_5)
-st.code(code_4, language="python")
-st.plotly_chart(fig_4)
-st.code(code_5, language="python")
-st.plotly_chart(fig_5)
-st.code(code_6, language="python")
-st.plotly_chart(fig_6)
+with st.expander(""):
+    st.markdown(markdown_5)
+    st.code(code_4, language="python")
+    st.plotly_chart(fig_4)
+    st.code(code_5, language="python")
+    st.plotly_chart(fig_5)
+    st.code(code_6, language="python")
+    st.plotly_chart(fig_6)
 
 st.header("Error bars & bounds")
-st.markdown(markdown_6)
-st.code(code_7, language="python")
-st.plotly_chart(fig_7)
-st.code(code_8, language="python")
-st.plotly_chart(fig_8)
-st.code(code_9, language="python")
-st.plotly_chart(fig_9)
+with st.expander(""):
+    st.markdown(markdown_6)
+    st.code(code_7, language="python")
+    st.plotly_chart(fig_7)
+    st.code(code_8, language="python")
+    st.plotly_chart(fig_8)
+    st.code(code_9, language="python")
+    st.plotly_chart(fig_9)
 
 st.header("Colours")
-st.markdown(markdown_7)
-
-with st.expander("Discrete color scales"):
+with st.expander(""):
+    st.markdown(markdown_7)
+    st.subheader("Discrete")
     st.code(code_10, language="python")
     st.plotly_chart(fig_10)
     st.code(code_11, language="python")
     st.plotly_chart(fig_11)
     st.code(code_12, language="python")
     st.plotly_chart(fig_12)
-
-with st.expander("Continuous color scales"):
+    st.subheader("Continuous")
     st.code(code_13, language="python")
     st.plotly_chart(fig_13)
     st.code(code_14, language="python")
     st.plotly_chart(fig_14)
     st.code(code_15, language="python")
     st.plotly_chart(fig_15)
+    st.markdown("Note, you can reverse any colorscale by appending '_r' to its name.")
 
 st.header("Templates")
-st.markdown(markdown_8)
-st.code(code_16)
-st.image("plotly-introduction-fig2.png")
+with st.expander(""):
+    st.markdown(markdown_8)
+    st.code(code_16)
+    st.image("images/plotly-introduction-fig2.png")
 
 st.header("Adding shapes")
-st.markdown(markdown_9)
-with st.expander("Lines"):
+with st.expander(""):
+    st.markdown(markdown_9)
+    st.subheader("Lines")
     st.code(code_17, language="python")
     st.plotly_chart(fig_17)
-with st.expander("Rectangles"):
+    st.subheader("Rectangles")
     st.code(code_18, language="python")
     st.plotly_chart(fig_18)
     st.code(code_19, language="python")
@@ -1228,70 +1233,76 @@ with st.expander("Rectangles"):
     st.plotly_chart(fig_20)
 
 st.header("Configuration options")
-st.markdown(markdown_10)
-st.code(code_21, language="python")
-st.plotly_chart(fig_21, config=dict(displayModeBar=False))
-st.code(code_22, language="python")
-st.plotly_chart(fig_22, config={'modeBarButtonsToAdd': [
-    'drawline',
-    'drawopenpath',
-    'drawclosedpath',
-    'drawcircle',
-    'drawrect',
-    'eraseshape'
-]})
-st.markdown(markdown_11)
-st.code(code_23, language="python")
-st.plotly_chart(fig_23, config={'modeBarButtonsToAdd': [
-    'drawline',
-    'drawopenpath',
-    'drawclosedpath',
-    'drawcircle',
-    'drawrect',
-    'eraseshape'
-]})
+with st.expander(""):
+    st.markdown(markdown_10)
+    st.code(code_21, language="python")
+    st.plotly_chart(fig_21, config=dict(displayModeBar=False))
+    st.code(code_22, language="python")
+    st.plotly_chart(fig_22, config={'modeBarButtonsToAdd': [
+        'drawline',
+        'drawopenpath',
+        'drawclosedpath',
+        'drawcircle',
+        'drawrect',
+        'eraseshape'
+    ]})
+    st.markdown(markdown_11)
+    st.code(code_23, language="python")
+    st.plotly_chart(fig_23, config={'modeBarButtonsToAdd': [
+        'drawline',
+        'drawopenpath',
+        'drawclosedpath',
+        'drawcircle',
+        'drawrect',
+        'eraseshape'
+    ]})
 
 st.header("Annotations")
-st.markdown(markdown_12)
-st.code(code_24, language="python")
-st.plotly_chart(fig_24)
-st.markdown(markdown_13)
-st.code(code_25, language="python")
-st.plotly_chart(fig_25)
+with st.expander(""):
+    st.markdown(markdown_12)
+    st.code(code_24, language="python")
+    st.plotly_chart(fig_24)
+    st.markdown(markdown_13)
+    st.code(code_25, language="python")
+    st.plotly_chart(fig_25)
 
 st.header("Animations")
-st.markdown(markdown_14)
-st.code(code_26, language="python")
-st.plotly_chart(fig_26)
-st.markdown(markdown_15)
+with st.expander(""):
+    st.markdown(markdown_14)
+    st.code(code_26, language="python")
+    st.plotly_chart(fig_26)
+    st.markdown(markdown_15)
 
 st.header("Subplots")
-st.markdown(markdown_16)
-st.code(code_27, language="python")
-st.plotly_chart(fig_27)
-st.code(code_28, language="python")
-st.plotly_chart(fig_28)
-st.markdown(markdown_17)
+with st.expander(""):
+    st.markdown(markdown_16)
+    st.code(code_27, language="python")
+    st.plotly_chart(fig_27)
+    st.code(code_28, language="python")
+    st.plotly_chart(fig_28)
+    st.markdown(markdown_17)
 
 st.header("Time series & date axes (and financial charts)")
-st.markdown(markdown_18)
-st.code(code_29, language="python")
-st.plotly_chart(fig_29)
-st.code(code_30, language="python")
-st.plotly_chart(fig_30)
-st.code(code_31, language="python")
-st.plotly_chart(fig_31)
-st.code(code_32, language="python")
-st.plotly_chart(fig_32)
-st.markdown(markdown_19)
-st.code(code_33, language="python")
-st.plotly_chart(fig_33)
-st.code(code_34, language="python")
-st.plotly_chart(fig_34)
+with st.expander(""):
+    st.markdown(markdown_18)
+    st.code(code_29, language="python")
+    st.plotly_chart(fig_29)
+    st.code(code_30, language="python")
+    st.plotly_chart(fig_30)
+    st.code(code_31, language="python")
+    st.plotly_chart(fig_31)
+    st.code(code_32, language="python")
+    st.plotly_chart(fig_32)
+    st.markdown(markdown_19)
+    st.code(code_33, language="python")
+    st.plotly_chart(fig_33)
+    st.code(code_34, language="python")
+    st.plotly_chart(fig_34)
 
 st.header("Marginal plots")
-st.markdown(markdown_20)
-st.code(code_35, language="python")
-st.plotly_chart(fig_35)
-st.code(code_36, language="python")
-st.plotly_chart(fig_36)
+with st.expander(""):
+    st.markdown(markdown_20)
+    st.code(code_35, language="python")
+    st.plotly_chart(fig_35)
+    st.code(code_36, language="python")
+    st.plotly_chart(fig_36)

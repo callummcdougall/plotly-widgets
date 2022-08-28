@@ -74,7 +74,7 @@ Widgets are interactive ways to control certain values in Python (e.g. sliders, 
 
 with st.expander("Integration with IPython widgets"):
     st.markdown(markdown_21)
-    st.image("plotly-introduction-fig1.png")
+    st.image("images/plotly-introduction-fig1.png")
 
 st.markdown("""I expect matplotlib to still be the best tool for some tasks, and it might be that learning a new graphing library doesn't appeal to you. But before you reject the idea, I'd encourage you to look through some of the other sections of this course, and give it a try!""")
 
@@ -112,46 +112,40 @@ Layout({
 
 markdown_3 = """Here we can see that `data` is stored as a tuple of traces (in this case just one), and `layout` is stored as a single object. We can extract a specific value either as an attribute, or by treating it as a dictionary. Many properties of graphs can be accessed and initialised as nested dictionaries."""
 
-st.header("The `Figure` object")
-st.markdown(markdown_22)
-st.code(code_2, language="python")
-fig_2 = go.Figure(
-    data=[go.Bar(x=[1, 2, 3], y=[1, 3, 2])],
-    layout=go.Layout(height=400, width=600)
-)
-st.plotly_chart(fig_2)
-st.code(code_3, language="python")
-st.markdown(markdown_3)
-
-
-
 code_4 = """>>> fig.data[0].x
 (1, 2, 3)
 >>> fig.layout["height"]
 400"""
 
-st.code(code_4, language="python")
-
 markdown_4 = """### Updating Figures
 
 Graphs can be updated by using the methods **`update_traces`** (for the data) and **`update_layout`** (for the layout). An example is shown below."""
-
-st.markdown(markdown_4)
 
 code_5 = """fig.update_traces(marker_color="red")
 fig.update_layout(title_text="A Figure Specified By A Graph Object", width=600, height=400)
 
 fig.show()"""
 
-st.code(code_5, language="python")
-
-fig_2.update_traces(marker_color="red")
-fig_2.update_layout(title_text="A Figure Specified By A Graph Object", width=600, height=400)
-st.plotly_chart(fig_2)
-
 markdown_5 = """Note — you might expect **`marker_color`** to be under layout, not traces. However, layout deals with the top-level attributes of the figure (e.g. title and legend), whereas traces deals with the values *and appearance* of the *data*, so this includes things like marker colour."""
 
-st.markdown(markdown_5)
+st.header("The `Figure` object")
+with st.expander(""):
+    st.markdown(markdown_22)
+    st.code(code_2, language="python")
+    fig_2 = go.Figure(
+        data=[go.Bar(x=[1, 2, 3], y=[1, 3, 2])],
+        layout=go.Layout(height=400, width=600)
+    )
+    st.plotly_chart(fig_2)
+    st.code(code_3, language="python")
+    st.markdown(markdown_3)
+    st.code(code_4, language="python")
+    st.markdown(markdown_4)
+    st.code(code_5, language="python")
+    fig_2.update_traces(marker_color="red")
+    fig_2.update_layout(title_text="A Figure Specified By A Graph Object", width=600, height=400)
+    st.plotly_chart(fig_2)
+    st.markdown(markdown_5)
 
 
 markdown_6 = """**Magic underscore notation** is how we string together nested properties, to make code look nicer. For instance, we called `update_layout(title_text=...)` in the code above, i.e. using an underscore to connect `title` and `text`. We can also use nested dictionaries, which can be more useful when we want to set multiple sub-properties at once. 
@@ -169,15 +163,12 @@ code_6 = """fig.update_layout(
 )
 fig.show()"""
 
-fig_2.update_layout(
-    title=dict(
-        text="We can use dictionaries rather than underscores!",
-        font=dict(
-            family="Times New Roman",
-            color="red"
-        )
-    )
+fig_2b = go.Figure(
+    data=[go.Bar(x=[1, 2, 3], y=[1, 3, 2])],
+    layout=go.Layout(height=400, width=600)
 )
+fig_2b.update_traces(marker_color="red")
+fig_2b.update_layout(title_text="A Figure Specified By A Graph Object", width=600, height=400)
 
 code_7 = """fig.update_layout(
     title_text="We can use dictionaries rather than underscores!",
@@ -187,11 +178,23 @@ code_7 = """fig.update_layout(
 
 
 st.header("Magic underscore notation")
-st.markdown(markdown_6)
-st.code(code_6, language="python")
-st.plotly_chart(fig_2)
-st.markdown("This is equivalent to the following code:")
-st.code(code_7, language="python")
+with st.expander(""):
+    st.markdown(markdown_6)
+    st.code("fig.show()", language="python")
+    st.plotly_chart(fig_2b)
+    st.code(code_6, language="python")
+    fig_2b.update_layout(
+        title=dict(
+            text="We can use dictionaries rather than underscores!",
+            font=dict(
+                family="Times New Roman",
+                color="red"
+            )
+        )
+    )
+    st.plotly_chart(fig_2b)
+    st.markdown("This is equivalent to the following code:")
+    st.code(code_7, language="python")
 
 
 markdown_7 = """We have already covered plotly graph objects, and how they are used to construct figures. The other main way to construct figures in plotly is by using **`plotly.express`**. Below is a comparison of the two methods.
@@ -199,7 +202,7 @@ markdown_7 = """We have already covered plotly graph objects, and how they are u
 ### **Plotly graph objects** 
 * Usually imported as **`import plotly.graph_objects as go`**
 * More low-level, and gives you more control over the graph
-* Makes some features easier to implement, e.g. subplots or faceted plots
+* Makes some features easier to implement, e.g. adding subplots to a figure or making tables
     
 ### **Plotly express**
 * Usually imported as **`import plotly.express as px`**
@@ -210,19 +213,11 @@ markdown_7 = """We have already covered plotly graph objects, and how they are u
 
 ### Which one to use?
 
-In reality, plotly express is built on top of graph objects, it just abstracts away some of the details. However, there are still times when graph objects are easier to use. In the code below, we'll see lots of examples of both.
+In reality, plotly express is built on top of graph objects, it just abstracts away some of the details. In general, plotly express is much easier to use, and most of the examples will use it rather than graph objects. However, there are still times when graph objects are easier to use. In the next sections, we'll see some examples of both.
 
 One big advantage of plotly express is that data for graphs can be supplied by a Pandas dataframe. The basic idea is that you have `df` as your first argument, and then other arguments like `x`, `y`, `color` are set to column names rather than arrays. Below is an example of this in action:"""
 
-code_8 = """df = pd.DataFrame({
-  "Fruit": ["Apples", "Oranges", "Bananas", "Apples", "Oranges", "Bananas"],
-  "Contestant": ["Alex", "Alex", "Alex", "Jordan", "Jordan", "Jordan"],
-  "Number Eaten": [2, 1, 3, 1, 3, 2],
-})
-
-import plotly.express as px
-
-fig = px.bar(df, x="Fruit", y="Number Eaten", color="Contestant", barmode="group")
+code_8 = """fig = px.bar(df, x="Fruit", y="Number Eaten", color="Contestant", barmode="group")
 fig.show()"""
 
 code_9 = """import plotly.graph_objects as go
@@ -256,11 +251,15 @@ fig_4.update_yaxes(title_text="Number Eaten")
 
 
 st.header("Plotly Express vs. Graph Objects")
-st.markdown(markdown_7)
-st.code(code_8, language="python")
-st.plotly_chart(fig_3)
-st.code(code_9, language="python")
-st.plotly_chart(fig_3)
+with st.expander(""):
+    st.markdown(markdown_7)
+    st.code("display(df)", language="python")
+    st.table(df)
+    st.code(code_8, language="python")
+    st.plotly_chart(fig_3)
+    st.markdown("And the equivalent code using graph objects (which is much longer and less efficient):")
+    st.code(code_9, language="python")
+    st.plotly_chart(fig_3)
 
 
 
