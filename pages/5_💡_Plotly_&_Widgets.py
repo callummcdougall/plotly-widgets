@@ -73,7 +73,7 @@ df_dict = loading_dataframes()
 
 st.markdown("""In this section, I demonstrate how Plotly and Widgets can be used in tandem. 
 
-Note that, although the code is correct, the widgets themselves are native to Streamlit rather than being IPyWidgets (which is why they look different than previous sections). This is because Streamlit doesn't support IPyWidgets yet. If you want to play around with the real Plotly-Widget objects, I'd recommend using my [**notebook**](https://github.com/callummcdougall/plotly-widgets/blob/main/WidgetsPlotlyGuideTrimmed.ipynb). The widgets will also run much faster there!
+Note that, although the code is correct, the widgets themselves are native to Streamlit rather than being IPyWidgets (which is why they look different than previous sections). This is because Streamlit doesn't support IPyWidgets yet. If you want to play around with the real Plotly-Widget objects, I'd recommend using my [**notebook**](https://github.com/callummcdougall/plotly-widgets/blob/main/WidgetsPlotlyGuide.ipynb). The widgets will also run much faster there!
 
 Tangential sidenote though - [**Streamlit**](https://docs.streamlit.io/library/api-reference) is awesome and really easy to learn (I'd estimate about 2-3 hours to learn enough to make a site like this one, and another 4-5 hours to actually make it), so if you ever want to port over interactive Plotly charts into an actual website, I'd strongly recommend it!""")
 

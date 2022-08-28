@@ -31,7 +31,7 @@ st.set_page_config(
 
 st.title("Widgets")
 
-markdown = """Unfortunately widgets don't work well with Streamlit's API. For this section, I'd recommend you use the [Jupyter Notebook](https://github.com/callummcdougall/plotly-widgets/blob/main/WidgetsPlotlyGuideTrimmed.ipynb) instead, so you can actually go through each of the widgets yourself.
+markdown = """Unfortunately widgets don't work well with Streamlit's API. For this section, I'd recommend you use the [Jupyter Notebook](https://github.com/callummcdougall/plotly-widgets/blob/main/WidgetsPlotlyGuide.ipynb) instead, so you can actually go through each of the widgets yourself.
 
 Alternatively, you can skip to the next section to see some examples of what it looks like when Plotly and Widgets work together (I have made these ones interactive).
 
