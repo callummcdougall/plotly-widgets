@@ -5,6 +5,7 @@ from IPython.display import display, HTML
 
 import pandas as pd
 import numpy as np
+import scipy
 
 import sys, os
 import time
