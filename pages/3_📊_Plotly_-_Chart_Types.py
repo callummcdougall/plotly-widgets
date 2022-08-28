@@ -5,12 +5,12 @@ from IPython.display import display, HTML
 
 import pandas as pd
 import numpy as np
-import scipy
 
 import sys, os
 import time
 import datetime
 import re
+import scipy
 
 import plotly as py
 import plotly.graph_objs as go
@@ -995,59 +995,70 @@ fig_46 = go.Figure(data=[go.Table(
 
 
 
-st.header("Scatter plots")
-for (code, fig) in zip([code_1, code_2, code_3, code_4, code_5, code_6, code_7, code_8, code_9], [fig_1, fig_2, fig_3, fig_4, fig_5, fig_6, fig_7, fig_8, fig_9]):
-    st.code(code, language="python")
-    st.plotly_chart(fig)
-
-st.header("Line charts")
-for (code, fig) in zip([code_11, code_12, code_13, code_14, code_15], [fig_11, fig_12, fig_13, fig_14, fig_15]):
-    st.code(code, language="python")
-    st.plotly_chart(fig)
-
-st.header("Bar charts")
-for (code, fig) in zip([code_16, code_17, long_df, code_18, code_19, code_20, code_21], [fig_16, fig_17, None, fig_18, fig_19, fig_20, fig_21]):
-    if fig is not None:
+with st.expander("Scatter plots"):
+    st.header("Scatter plots")
+    for (code, fig) in zip([code_1, code_2, code_3, code_4, code_5, code_6, code_7, code_8, code_9], [fig_1, fig_2, fig_3, fig_4, fig_5, fig_6, fig_7, fig_8, fig_9]):
         st.code(code, language="python")
         st.plotly_chart(fig)
-    else:
-        st.table(code)
 
-st.header("Box plots")
-for (code, fig) in zip([code_22, code_23, code_24], [fig_22, fig_23, fig_24]):
-    st.code(code, language="python")
-    st.plotly_chart(fig)
+with st.expander("Line charts"):
+    st.header("Line charts")
+    for (code, fig) in zip([code_11, code_12, code_13, code_14, code_15], [fig_11, fig_12, fig_13, fig_14, fig_15]):
+        st.code(code, language="python")
+        st.plotly_chart(fig)
 
-st.header("Violin plots")
-for (code, fig) in zip([code_25, code_26, code_27, code_28], [fig_25, fig_26, fig_27, fig_28]):
-    st.code(code, language="python")
-    st.plotly_chart(fig)
+with st.expander("Bar charts"):
+    st.header("Bar charts")
+    for (code, fig) in zip([code_16, code_17, long_df, code_18, code_19, code_20, code_21], [fig_16, fig_17, None, fig_18, fig_19, fig_20, fig_21]):
+        if fig is not None:
+            st.code(code, language="python")
+            st.plotly_chart(fig)
+        else:
+            st.table(code)
 
-st.header("Histograms")
-for (code, fig) in zip([code_29, code_30, code_31, code_32], [fig_29, fig_30, fig_31, fig_32]):
-    st.code(code, language="python")
-    st.plotly_chart(fig)
+with st.expander("Box plots"):
+    st.header("Box plots")
+    for (code, fig) in zip([code_22, code_23, code_24], [fig_22, fig_23, fig_24]):
+        st.code(code, language="python")
+        st.plotly_chart(fig)
 
-st.header("Heatmaps")
-for (code, fig) in zip([code_33, code_34, code_35, code_36, code_37], [fig_33, fig_34, fig_35, fig_36, fig_37]):
-    st.code(code, language="python")
-    st.plotly_chart(fig)
+with st.expander("Violin plots"):
+    st.header("Violin plots")
+    for (code, fig) in zip([code_25, code_26, code_27, code_28], [fig_25, fig_26, fig_27, fig_28]):
+        st.code(code, language="python")
+        st.plotly_chart(fig)
 
-st.header("Treemaps")
-st.code(code_38, language="python")
-st.plotly_chart(fig_38)
+with st.expander("Histograms"):
+    st.header("Histograms")
+    for (code, fig) in zip([code_29, code_30, code_31, code_32], [fig_29, fig_30, fig_31, fig_32]):
+        st.code(code, language="python")
+        st.plotly_chart(fig)
 
-st.header("Marginal plots")
-for (code, fig) in zip([code_38, code_39, code_40, code_41], [fig_38, fig_39, fig_40, fig_41]):
-    st.code(code, language="python")
-    st.plotly_chart(fig)
+with st.expander("Heatmaps"):
+    st.header("Heatmaps")
+    for (code, fig) in zip([code_33, code_34, code_35, code_36, code_37], [fig_33, fig_34, fig_35, fig_36, fig_37]):
+        st.code(code, language="python")
+        st.plotly_chart(fig)
 
-st.header("Scatterplot matrix")
-for (code, fig) in zip([code_42, code_43], [fig_42, fig_43]):
-    st.code(code, language="python")
-    st.plotly_chart(fig)
+with st.expander("Treemaps"):
+    st.header("Treemaps")
+    st.code(code_38, language="python")
+    st.plotly_chart(fig_38)
 
-st.header("Tables")
-for (code, fig) in zip([code_44, code_45, code_46], [fig_44, fig_45, fig_46]):
-    st.code(code, language="python")
-    st.plotly_chart(fig)
+with st.expander("Marginal plots"):
+    st.header("Marginal plots")
+    for (code, fig) in zip([code_38, code_39, code_40, code_41], [fig_38, fig_39, fig_40, fig_41]):
+        st.code(code, language="python")
+        st.plotly_chart(fig)
+
+with st.expander("Scatterplot matrix"):
+    st.header("Scatterplot matrix")
+    for (code, fig) in zip([code_42, code_43], [fig_42, fig_43]):
+        st.code(code, language="python")
+        st.plotly_chart(fig)
+
+with st.expander("Tables"):
+    st.header("Tables")
+    for (code, fig) in zip([code_44, code_45, code_46], [fig_44, fig_45, fig_46]):
+        st.code(code, language="python")
+        st.plotly_chart(fig)
