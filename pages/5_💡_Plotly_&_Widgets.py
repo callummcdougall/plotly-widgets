@@ -32,11 +32,9 @@ st.set_page_config(
 streamlit_style = """
 			<style>
 			a, a:link, a:visited, a:active {
-                color: black;
                 text-decoration: none;
 			}
             a:hover {
-                color: black;
                 text-decoration: underline;
             }
 			</style>
