@@ -75,8 +75,7 @@ Happy plotting!
 
 st.markdown(markdown_1)
 
-notebook_path = Path(r"C:\Users\calsm\Documents\PythonScripts\Learning\tutorials\WidgetsPlotlyGuide.ipynb")
-with open(notebook_path, "rb") as file:
+with open("WidgetsPlotlyGuide.ipynb", "rb") as file:
     st.download_button(data=file, label="Download Jupyter Notebook", file_name="Plotly-Widgets-tutorial.ipynb")
 
 st.markdown(markdown_2)
