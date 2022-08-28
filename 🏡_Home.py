@@ -41,7 +41,7 @@ The first is to **provide a (relatively) condensed summary** of what I see as th
 
 The second is to **provide a useful resource to find code** which produces the plot / widget / plot-widget interaction that you want. It can be nice to memorise code and write it out efficiently, but a much more efficient alternative is to **(a) know the capabilities of a library and (b) know where to look to get the code you want**. I hope this document can accomplish both things.
 
-Depending on what you're hoping to use this for, you might prefer using the Jupyter Notebook, where you can actually run the cells. You can download it below, or from my [GitHub page](https://github.com/callummcdougall/plotly-widgets/blob/main/WidgetsPlotlyGuideTrimmed.ipynb)."""
+Depending on what you're hoping to use this for, you might prefer using the Jupyter Notebook, where you can actually run the cells. You can download it below, or from my [GitHub page](https://github.com/callummcdougall/plotly-widgets/blob/main/WidgetsPlotlyGuide.ipynb)."""
 
 markdown_2 = """---
 
@@ -75,7 +75,7 @@ Happy plotting!
 
 st.markdown(markdown_1)
 
-notebook_path = Path(r"C:\Users\calsm\Documents\PythonScripts\Learning\tutorials\WidgetsPlotlyGuideTrimmed.ipynb")
+notebook_path = Path(r"C:\Users\calsm\Documents\PythonScripts\Learning\tutorials\WidgetsPlotlyGuide.ipynb")
 with open(notebook_path, "rb") as file:
     st.download_button(data=file, label="Download Jupyter Notebook", file_name="Plotly-Widgets-tutorial.ipynb")
 
