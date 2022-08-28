@@ -69,7 +69,7 @@ all_titles = [
 
 
 @st.cache(hash_funcs={dict: lambda _: None})
-def get_dict_of_figures():
+def fetching_graphs():
     d = {}
     df = px.data.iris()
     d[1] = px.scatter(df, x="sepal_width", y="sepal_length", color="species", size='petal_length', hover_data=['petal_width'])
@@ -902,7 +902,7 @@ fig = go.Figure(data=[go.Table(
 fig.show()"""
 
 
-d, long_df = get_dict_of_figures()
+d, long_df = fetching_graphs()
 fig_1 = d[1]
 fig_2 = d[2]
 fig_3 = d[3]
