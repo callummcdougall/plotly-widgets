@@ -65,9 +65,9 @@ all_titles = [
 
 num_blocks = [10, 5, 9, 4, 4, 5, 1, 3, 2, 3]
 
-with st.sidebar:
-    for title in all_titles:
-        st.markdown(f"[{title}]({parse_title(title)})", unsafe_allow_html=True)
+# with st.sidebar:
+#     for title in all_titles:
+#         st.markdown(f"[{title}]({parse_title(title)})", unsafe_allow_html=True)
 
 
 
