@@ -1001,7 +1001,7 @@ with st.expander("Treemaps"):
 
 with st.expander("Marginal plots"):
     st.header("Marginal plots")
-    for (code, fig) in zip([code_38, code_39, code_40, code_41], [fig_38, fig_39, fig_40, fig_41]):
+    for (code, fig) in zip([code_39, code_40, code_41], [fig_39, fig_40, fig_41]):
         st.code(code, language="python")
         st.plotly_chart(fig)
 
