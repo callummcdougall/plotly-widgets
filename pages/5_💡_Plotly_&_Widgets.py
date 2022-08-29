@@ -217,6 +217,7 @@ layout2 = go.Layout(title='NYC FlightDatabase',
 
 fig_hist = go.FigureWidget(data=data2, layout=layout2)
 
+
 def update_histogram(change):
 
     filter_list = (df["carrier"] == airline_widget.value) & (df["origin"] == origin_widget.value)
@@ -227,13 +228,17 @@ def update_histogram(change):
     with fig_hist.batch_update():
         fig_hist.data[0].x = temp_df['arr_delay']
         fig_hist.data[1].x = temp_df['dep_delay']
-        
+
 update_histogram("unimportant text") # useful for triggering first response
 
-for w in [origin, textbox, month, use_date]:
-    w.observe(response, names="value")
-    
-wg.VBox([container1, container2, fig])"""
+for widget in [airline_widget, origin_widget, month_widget, use_date_widget]:
+    widget.observe(update_histogram, names="value")
+
+widget_box_1 = wg.VBox([use_date_widget, month_widget])
+widget_box_2 = wg.VBox([airline_widget, origin_widget])
+widget_box_main = wg.HBox([widget_box_1, widget_box_2])
+
+wg.VBox([widget_box_main, fig_hist])"""
 
 with st.expander("Code"):
     st.code(code_flights, language="python")
