@@ -437,8 +437,6 @@ def update_histogram(change):
         
 update_histogram("unimportant text") # useful for triggering first response
 
-
-
 for widget in [airline_widget, origin_widget, month_widget, use_date_widget]:
     widget.observe(update_histogram, names="value")
 
@@ -474,5 +472,7 @@ st.markdown("""The final example of this notebook, this shows how you can combin
 I'm using screenshots of the actual widgets here rather than Streamlit widgets, because you can see both the code examples above.""")
 
 cols_tabs = st.columns(2)
-with cols_tabs[0]: st.image("../images/table-1.png")
-with cols_tabs[1]: st.image("../images/table-2.png")
+with cols_tabs[0]:
+    st.image("images/table-1.png")
+with cols_tabs[1]:
+    st.image("images/table-2.png")
